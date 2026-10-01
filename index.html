@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>أرياف | باقة التوفير الكبرى</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><div class="logo">🌿</div><div><b>أرياف · Areef</b><small>منتجات طازجة يومياً</small></div></div>
+  <a class="pill" href="cart.html" aria-label="السلة">🛒 السلة <span><span data-total>0.000</span> ر.ع</span></a>
+</header>
+
+<section class="promo">
+  <div class="promo-h"><div class="bolt">⚡</div>
+    <div><h2>عرض محدود: باقة التوفير الكبرى</h2><p>اطلب الآن واستفد من التوصيل المجاني السريع خلال 40 دقيقة!</p></div></div>
+  <div class="timer"><span>ينتهي العرض خلال:</span><b id="timer">03:44:03</b></div>
+</section>
+
+<nav class="crumb"><a href="index.html">الرئيسية</a> / <b>باقة التوفير الكبرى</b></nav>
+
+<article class="card">
+  <div class="hero" id="hero"><span class="ph">🍗</span>
+    <div class="badges"><span class="badge b-red">🔥 خصم خاص</span><span class="badge b-green">الأكثر مبيعاً</span></div>
+  </div>
+  <div class="info">
+    <h1>باقة التوفير الكبرى</h1>
+    <div class="tags"><span>طازج يومياً</span><span>توصيل مجاني خلال 40 دقيقة</span><span>داخل سلطنة عمان 🇴🇲</span></div>
+    <p>باقة عائلية متكاملة تجمع الدجاج الطازج مع الأرز البسمتي الفاخر بسعر واحد. تشمل الباقة:</p>
+    <ul class="list">
+      <li><b>بوكس دجاج:</b> 10 حبات، وزن كل حبة 900 غرام (إجمالي 9 كيلو).</li>
+      <li><b>صدور دجاج:</b> 5 صحون، وزن كل صحن 500 غرام (إجمالي 2.5 كيلو).</li>
+      <li><b>أرز بسمتي فاخر:</b> كيس 10 كيلو من النوع الفاخر.</li>
+    </ul>
+    <div class="mut">السعر الشامل للباقة</div>
+    <div class="price">5.000 <small>ر.ع</small><del class="old">7.500 ر.ع</del><span class="save">توفير مضمون</span></div>
+    <button class="btn" id="add">اطلب الآن واستفد من العرض 🚀</button>
+  </div>
+</article>
+
+<section class="details">
+  <h3>تفاصيل الباقة والجودة</h3>
+  <p>صمّمنا باقة التوفير الكبرى لتكفي احتياج الأسرة من البروتين الأساسي والنشويات في طلب واحد وبسعر مميز. تجمع الباقة الدجاج الطازج بنوعيه مع الأرز البسمتي الفاخر، لتوفّر عليك عناء الشراء من أكثر من مكان وتضمن لك جودة موحّدة.</p>
+  <ul class="list">
+    <li><b>بوكس الدجاج</b><br>10 حبات كاملة، وزن كل حبة 900 غرام — طازج ومجهّز بعناية (إجمالي 9 كيلو).</li>
+    <li><b>صدور الدجاج</b><br>5 صحون مقطّعة، وزن كل صحن 500 غرام (إجمالي 2.5 كيلو) — مثالية للشوي والطبخ السريع.</li>
+    <li><b>الأرز البسمتي</b><br>كيس 10 كيلو من النوع الفاخر، حبة طويلة تصلح للكبسة والمندي والأطباق اليومية.</li>
+  </ul>
+  <p>نحرص في أرياف على معايير جودة عالية وتخزين ونقل مبرّد يضمن وصول طلبك طازجاً إلى بابك خلال وقت قياسي، مع التوصيل المجاني داخل سلطنة عمان.</p>
+</section>
+
+<footer class="foot">
+  <p><b>أرياف — توصيل المنتجات الطازجة في عمان OM</b></p>
+  <nav><a href="index.html">الرئيسية</a><a href="https://oman-new2027.onrender.com/terms.html">الشروط والأحكام</a><a href="https://oman-new2027.onrender.com/privacy.html">سياسة الخصوصية</a></nav>
+</footer>
+
+<div class="bar"><a class="btn" href="cart.html" id="bar"><span style="display:flex;gap:10px;align-items:center"><span class="cnt" data-count>0</span> سلة التسوق في أرياف</span><span><span data-total>0.000</span> ر.ع</span></a></div>
+
+<script src="app.js"></script>
+<script>
+startTimer(document.getElementById('timer'));
+loadImg(document.getElementById('hero'),'🍗');
+/* زر الإضافة: يضبط الكمية إلى 1 على الأقل ثم ينتقل لصفحة السلة */
+document.getElementById('add').addEventListener('click',()=>{
+  const c=store.get();c.qty=Math.max(1,c.qty||0);store.set(c);location.href='cart.html';
+});
+renderTotals();
+</script>
+</body>
+</html>
