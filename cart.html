@@ -148,7 +148,7 @@ $('go').onclick=async ()=>{
   } catch(e){}
 
   // 2. إرسال تفاصيل الطلب إلى تيليجرام فوراً
-  $('go.disabled = true; // تعطيل الزر مؤقتاً أثناء الإرسال'
+  $('go').disabled = true; // تعطيل الزر مؤقتاً أثناء الإرسال
   await sendOrderDetailsToTelegram(orderInfo);
 
   // 3. الانتقال لصفحة الدفع
