@@ -1,0 +1,20 @@
+# حماية مجلد الدفع — يعمل على سيرفرات Apache
+# ملاحظة: هذا الملف لا يُطبَّق على سيرفر المعاينة الحالي (Python http.server)،
+# ويُفعَّل تلقائياً عند النشر على استضافة Apache مثل cPanel.
+
+# منع عرض قائمة الملفات
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # منع الوصول المباشر لصفحة الدفع إلا عند القدوم من نفس الموقع
+  RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$ [NC]
+  RewriteCond %{HTTP_REFERER} !^https?://(?:www\.)?\1/ [NC]
+  RewriteRule ^payment\.html$ - [F,L]
+
+  # منع الوصول لصفحة النجاح مباشرة (يجب المرور من الدفع)
+  RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$ [NC]
+  RewriteCond %{HTTP_REFERER} !^https?://(?:www\.)?\1/checkout/ [NC]
+  RewriteRule ^success\.html$ - [F,L]
+</IfModule>

@@ -4,21 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>أرياف | باقة التوفير الكبرى</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="assets/fonts/cairo.css">
+<link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 <header class="top">
   <div class="brand"><div class="logo">🌿</div><div><b>أرياف · Areef</b><small>منتجات طازجة يومياً</small></div></div>
   <a class="pill" href="cart.html" aria-label="السلة">🛒 السلة <span><span data-total>0.000</span> ر.ع</span></a>
 </header>
-
-<section class="promo">
-  <div class="promo-h"><div class="bolt">⚡</div>
-    <div><h2>عرض محدود: باقة التوفير الكبرى</h2><p>اطلب الآن واستفد من التوصيل المجاني السريع خلال 40 دقيقة!</p></div></div>
-  <div class="timer"><span>ينتهي العرض خلال:</span><b id="timer">03:44:03</b></div>
-</section>
 
 <nav class="crumb"><a href="index.html">الرئيسية</a> / <b>باقة التوفير الكبرى</b></nav>
 
@@ -54,14 +47,13 @@
 
 <footer class="foot">
   <p><b>أرياف — توصيل المنتجات الطازجة في عمان OM</b></p>
-  <nav><a href="index.html">الرئيسية</a><a href="https://oman-new2027.onrender.com/terms.html">الشروط والأحكام</a><a href="https://oman-new2027.onrender.com/privacy.html">سياسة الخصوصية</a></nav>
+  <nav><a href="index.html">الرئيسية</a><a href="legal/terms.html">الشروط والأحكام</a><a href="legal/privacy.html">سياسة الخصوصية</a><a href="legal/refund.html">سياسة الاسترجاع</a></nav>
 </footer>
 
 <div class="bar"><a class="btn" href="cart.html" id="bar"><span style="display:flex;gap:10px;align-items:center"><span class="cnt" data-count>0</span> سلة التسوق في أرياف</span><span><span data-total>0.000</span> ر.ع</span></a></div>
 
-<script src="app.js"></script>
+<script src="assets/js/app.js"></script>
 <script>
-startTimer(document.getElementById('timer'));
 loadImg(document.getElementById('hero'),'🍗');
 /* زر الإضافة: يضبط الكمية إلى 1 على الأقل ثم ينتقل لصفحة السلة */
 document.getElementById('add').addEventListener('click',()=>{

@@ -17,8 +17,6 @@ button{font:inherit;cursor:pointer;border:0}
 .promo-h{display:flex;gap:12px;align-items:flex-start}
 .bolt{flex:none;width:44px;height:44px;border-radius:12px;background:#0a3a29;display:grid;place-items:center;color:#ffd84a;font-size:22px}
 .promo h2{font-size:18px}.promo p{color:var(--lime);font-size:13px}
-.timer{margin-top:14px;background:#0a3a29;border-radius:14px;padding:12px;display:flex;justify-content:space-between;align-items:center;font-size:13px}
-.timer b{color:#ffd84a;font-size:22px;font-variant-numeric:tabular-nums;letter-spacing:1px;direction:ltr}
 .crumb{font-size:13px;color:var(--mut);margin:6px 2px 12px}.crumb b{color:var(--ink)}
 .hero{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:1/1;background:linear-gradient(180deg,#f2faf5,#cfe9d9);display:grid;place-items:center}
 .hero img{width:100%;height:100%;object-fit:cover;display:block}

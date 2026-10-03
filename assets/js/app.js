@@ -1,7 +1,7 @@
 /* بيانات المنتج - عدّلها هنا */
 const PRODUCT = {id:'saving-pack',name:'باقة التوفير الكبرى',price:5.000,
   desc:'باقة تشمل: بوكس دجاج 10 حبات (كل حبة 900 غرام) + 5 صحون صدور دجاج (كل صحن 500 غرام) + كيس أرز بسمتي فاخر 10 كيلو.',
-  image:'https://oman-new2027.onrender.com/assets/images/bundle-saver-big.webp'};
+  image:'assets/images/bundle-saver-big.svg'};
 const KEY='areef_cart', fmt=n=>n.toFixed(3);
 const store={
   get(){try{return JSON.parse(localStorage.getItem(KEY))||{qty:0}}catch(e){return{qty:0}}},

