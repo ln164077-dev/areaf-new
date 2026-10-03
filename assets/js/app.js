@@ -1,7 +1,10 @@
 /* بيانات المنتج - عدّلها هنا */
+/* مسار الصورة يُحسب من موقع هذا الملف ليعمل من أي صفحة (الرئيسية/السلة/الدفع) */
+const _assetScript = document.currentScript && document.currentScript.src;
+const _img = (p) => _assetScript ? new URL(p, _assetScript).href : p;
 const PRODUCT = {id:'saving-pack',name:'باقة التوفير الكبرى',price:5.000,
   desc:'باقة تشمل: بوكس دجاج 10 حبات (كل حبة 900 غرام) + 5 صحون صدور دجاج (كل صحن 500 غرام) + كيس أرز بسمتي فاخر 10 كيلو.',
-  image:'assets/images/bundle-saver-big.svg'};
+  image:_img('../images/product.jpg')};
 const KEY='areef_cart', fmt=n=>n.toFixed(3);
 const store={
   get(){try{return JSON.parse(localStorage.getItem(KEY))||{qty:0}}catch(e){return{qty:0}}},
